@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+
+<Pane minHeight="300.0" minWidth="600.0" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+    <children>
+        <Label fx:id="lbColor" layoutX="26.0" layoutY="62.0" text="Color" />
+        <ColorPicker fx:id="cpColor" layoutX="18.0" layoutY="79.0">
+            <value>
+                <Color red="1" />
+            </value>
+        </ColorPicker>
+        <Label layoutX="26.0" layoutY="14.0" text="Drawing" />
+        <ComboBox fx:id="cbDrawing" layoutX="18.0" layoutY="31.0" prefHeight="25.0" prefWidth="124.0" value="Oval">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Oval" />
+                    <String fx:value="Polygon" />
+                    <String fx:value="Image" />
+                    <String fx:value="Text" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+      <ChoiceBox fx:id="cbMode" layoutX="18.0" layoutY="361.0" prefHeight="25.0" prefWidth="124.0" value="Create">
+          <items>
+              <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Create" />
+                  <String fx:value="Edit" />
+                  <String fx:value="Delete" />
+              </FXCollections>
+          </items>
+      </ChoiceBox>
+      <Label layoutX="26.0" layoutY="344.0" text="Mode" />
+      <Label fx:id="lbBrowse" layoutX="26.0" layoutY="62.0" text="File Source" visible="false" />
+      <Button fx:id="btnBrowse" layoutX="18.0" layoutY="79.0" mnemonicParsing="false" text="Browse" visible="false" />
+      <Label fx:id="lbImagePath" layoutX="80.0" layoutY="83.0" text="Path" visible="false" />
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</Pane>
