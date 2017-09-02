@@ -50,4 +50,9 @@ public class Image extends DrawingItem {
     public void setHeight(double height) {
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return "Image";
+    }
 }

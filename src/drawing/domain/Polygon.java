@@ -40,4 +40,9 @@ public class Polygon extends DrawingItem {
     public double getHeight() {
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "Polygon";
+    }
 }
