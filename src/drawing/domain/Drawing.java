@@ -26,7 +26,7 @@ public class Drawing implements Comparator<DrawingItem> {
 
     @Override
     public int compare(DrawingItem o1, DrawingItem o2) {
-        if(o1.getAnchor() == null || o2.getAnchor() == null) return 0;
+        if (o1.getAnchor() == null || o2.getAnchor() == null) return 0;
         return Integer.compare((int) ((int) o1.getAnchor().getX() + o1.getAnchor().getY()), (int) ((int) o2.getAnchor().getX() + o2.getAnchor().getY()));
     }
 }
