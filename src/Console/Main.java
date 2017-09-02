@@ -15,15 +15,20 @@ public class Main {
     }
 
     private static void testToString() {
-        Polygon polygon = new Polygon(new Point[0], 5, Color.PURPLE);
-        Oval oval = new Oval(new Point(10, 20), 20, 30, 2, Color.ALICEBLUE);
+        Point[] vertices = new Point[4];
+        vertices[0] = new Point( 15,60);
+        vertices[1] = new Point(60,15);
+        vertices[2] = new Point(0,90);
+        vertices[3] = new Point(105, 10);
         Image img = new Image(null, new Point(0, 10), 20, 20);
+        Oval oval = new Oval(new Point(10, 20), 20, 30, 2, Color.ALICEBLUE);
         PaintedText text = new PaintedText("Text", "Consolas", new Point(30, 10), 40, 10, Color.CORAL);
+        Polygon polygon = new Polygon(vertices, 5, Color.PURPLE);
         ArrayList<DrawingItem> items = new ArrayList<>();
         items.add(img);
+        items.add(polygon);
         items.add(oval);
         items.add(text);
-        items.add(polygon);
 
         Drawing d = new Drawing("Nice drawing", items);
 

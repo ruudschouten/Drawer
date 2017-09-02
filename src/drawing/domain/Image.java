@@ -53,6 +53,8 @@ public class Image extends DrawingItem {
 
     @Override
     public String toString() {
-        return "Image";
+        if (file != null)
+            return String.format("Image x:%d y:%d h:%s w:%s src=%s", getAnchor().x, getAnchor().y, getHeight(), getWidth(), file.getPath());
+        return String.format("Image x:%d y:%d h:%s w:%s src=null", getAnchor().x, getAnchor().y, getHeight(), getWidth());
     }
 }
