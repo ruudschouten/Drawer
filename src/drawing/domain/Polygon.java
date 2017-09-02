@@ -28,21 +28,29 @@ public class Polygon extends DrawingItem {
 
     @Override
     public Point getAnchor() {
-        return null;
+        return vertices[0];
     }
 
     @Override
     public double getWidth() {
-        return 0;
+        double widest = 0;
+        for (Point v : vertices) {
+            if(Math.abs(v.y) > widest) widest = Math.abs(v.y);
+        }
+        return widest;
     }
 
     @Override
     public double getHeight() {
-        return 0;
+        double highest = 0;
+        for (Point v : vertices) {
+            if(Math.abs(v.x) > highest) highest = Math.abs(v.x);
+        }
+        return highest;
     }
 
     @Override
     public String toString() {
-        return "Polygon";
+        return String.format("Polygon x:%d y:%d h:%s w:%s color:%s", getAnchor().x, getAnchor().y, getHeight(), getWidth(), color) ;
     }
 }
