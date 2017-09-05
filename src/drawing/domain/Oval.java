@@ -54,6 +54,11 @@ public class Oval extends DrawingItem {
     }
 
     @Override
+    public void paintUsing(IPaintable paintable) {
+        paintable.paint(this);
+    }
+
+    @Override
     public String toString() {
         return String.format("Oval x:%d y:%d h:%s w:%s color:%s", getAnchor().x, getAnchor().y, getHeight(), getWeight(), color);
     }

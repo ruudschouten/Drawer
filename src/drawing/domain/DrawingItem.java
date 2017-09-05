@@ -26,5 +26,7 @@ public abstract class DrawingItem {
     public DrawingItem getPreviousState() {
         return previousState;
     }
+
+    public abstract void paintUsing(IPaintable paintable);
 }
 

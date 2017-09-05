@@ -64,7 +64,12 @@ public class PaintedText extends DrawingItem {
     }
 
     @Override
+    public void paintUsing(IPaintable paintable) {
+        paintable.paint(this);
+    }
+
+    @Override
     public String toString() {
-        return String.format("Painted %s x:%d y:%d h:%s w:%s color:%s font:%s", content, getAnchor().x, getAnchor().y, getHeight(), getWidth(), color, getFontName()) ;
+        return String.format("Painted %s x:%d y:%d h:%s w:%s color:%s font:%s", content, getAnchor().x, getAnchor().y, getHeight(), getWidth(), color, getFontName());
     }
 }

@@ -35,7 +35,7 @@ public class Polygon extends DrawingItem {
     public double getWidth() {
         double widest = 0;
         for (Point v : vertices) {
-            if(Math.abs(v.y) > widest) widest = Math.abs(v.y);
+            if (Math.abs(v.y) > widest) widest = Math.abs(v.y);
         }
         return widest;
     }
@@ -44,13 +44,18 @@ public class Polygon extends DrawingItem {
     public double getHeight() {
         double highest = 0;
         for (Point v : vertices) {
-            if(Math.abs(v.x) > highest) highest = Math.abs(v.x);
+            if (Math.abs(v.x) > highest) highest = Math.abs(v.x);
         }
         return highest;
     }
 
     @Override
+    public void paintUsing(IPaintable paintable) {
+        paintable.paint(this);
+    }
+
+    @Override
     public String toString() {
-        return String.format("Polygon x:%d y:%d h:%s w:%s color:%s", getAnchor().x, getAnchor().y, getHeight(), getWidth(), color) ;
+        return String.format("Polygon x:%d y:%d h:%s w:%s color:%s", getAnchor().x, getAnchor().y, getHeight(), getWidth(), color);
     }
 }

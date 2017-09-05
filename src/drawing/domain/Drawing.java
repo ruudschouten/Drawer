@@ -24,6 +24,15 @@ public class Drawing implements Comparator<DrawingItem> {
         this.name = name;
     }
 
+    public void paintUsing(IPaintable paintable) throws ClassCastException {
+        for (DrawingItem d : items) {
+            if (d.getClass() == Oval.class) paintable.paint((Oval) d);
+            else if (d.getClass() == Polygon.class) paintable.paint((Polygon) d);
+            else if (d.getClass() == PaintedText.class) paintable.paint((PaintedText) d);
+            else if (d.getClass() == Image.class) paintable.paint((Image) d);
+        }
+    }
+
     @Override
     public int compare(DrawingItem o1, DrawingItem o2) {
         return Integer.compare((int) ((int) o1.getAnchor().getX() + o1.getAnchor().getY()), (int) ((int) o2.getAnchor().getX() + o2.getAnchor().getY()));

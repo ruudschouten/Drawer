@@ -52,6 +52,11 @@ public class Image extends DrawingItem {
     }
 
     @Override
+    public void paintUsing(IPaintable paintable) {
+        paintable.paint(this);
+    }
+
+    @Override
     public String toString() {
         if (file != null)
             return String.format("Image x:%d y:%d h:%s w:%s src=%s", getAnchor().x, getAnchor().y, getHeight(), getWidth(), file.getPath());
