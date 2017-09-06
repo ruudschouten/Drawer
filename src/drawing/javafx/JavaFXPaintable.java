@@ -3,14 +3,13 @@ package drawing.javafx;
 import drawing.domain.*;
 import drawing.domain.Image;
 import drawing.domain.Polygon;
-import javafx.embed.swt.FXCanvas;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.awt.*;
 
 public class JavaFXPaintable implements IPaintable {
 
-    GraphicsContext gc;
+    private GraphicsContext gc;
 
     JavaFXPaintable(GraphicsContext gc) {
         this.gc = gc;
@@ -18,11 +17,13 @@ public class JavaFXPaintable implements IPaintable {
 
     @Override
     public void paint(Oval oval) {
-        gc.fillOval(oval.getAnchor().getX(), oval.getAnchor().getY(), oval.getWeight(), oval.getHeight());
+        gc.setFill(oval.color);
+        gc.fillOval(oval.getAnchor().getX(), oval.getAnchor().getY(), oval.getWidth(), oval.getHeight());
     }
 
     @Override
     public void paint(Polygon polygon) {
+        gc.setFill(polygon.color);
         double[] vertical = new double[polygon.getVertices().length];
         double[] horizontal = new double[polygon.getVertices().length];
         for (int i = 0; i < polygon.getVertices().length; i++) {
@@ -35,6 +36,7 @@ public class JavaFXPaintable implements IPaintable {
 
     @Override
     public void paint(PaintedText text) {
+        gc.setFill(text.color);
         gc.fillText(text.getContent(), text.getAnchor().getX(), text.getAnchor().getY(), text.getWidth());
     }
 
