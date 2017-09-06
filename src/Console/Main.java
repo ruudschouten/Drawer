@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Main {
+class Main {
 
     public static void main(String[] arguments) {
         testToString();

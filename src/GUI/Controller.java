@@ -1,36 +1,52 @@
 package GUI;
 
+import drawing.domain.*;
+import drawing.domain.Polygon;
+import drawing.javafx.DrawingTool;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 
 public class Controller {
     @FXML
-    public Label lbImagePath;
+    private Label lbImagePath;
     @FXML
-    public ComboBox cbDrawing;
+    private ComboBox cbDrawing;
     @FXML
-    public Label lbColor;
+    private Label lbColor;
     @FXML
-    public ColorPicker cpColor;
+    private ColorPicker cpColor;
     @FXML
-    public ChoiceBox cbMode;
+    private ChoiceBox cbMode;
     @FXML
-    public Label lbBrowse;
+    private Label lbBrowse;
     @FXML
-    public Button btnBrowse;
+    private Button btnBrowse;
+    @FXML
+    private Canvas canvas;
 
-    private String drawing = "Gallo";
+    private Drawing drawing;
+    private String item = "Oval";
     private String mode = "Create";
-    private Color color;
+    private Color color = Color.RED;
 
     @FXML
     public void initialize() {
+        drawing = new Drawing("unnammed", new ArrayList<>());
         cbDrawing.valueProperty().addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
-            drawing = cbDrawing.getValue().toString();
+            item = cbDrawing.getValue().toString();
 
-            switch (drawing) {
+            switch (item) {
                 case "Oval":
                 case "Polygon":
                     changeImageControlVisibility(false);
@@ -61,5 +77,35 @@ public class Controller {
     private void changeColorControlVisibility(boolean visible) {
         lbColor.setVisible(visible);
         cpColor.setVisible(visible);
+    }
+
+    public void paintPaintable(MouseEvent mouseEvent) {
+        Random rand = new Random();
+        if (Objects.equals(mode, "Create")) {
+            Point pos = new Point((int) mouseEvent.getX(), (int) mouseEvent.getY());
+            switch (this.item) {
+                case "Oval":
+                    Oval oval = new Oval(pos, 20+ rand.nextInt(50), 20 + rand.nextInt(50), 1, color);
+                    drawing.getItems().add(oval);
+                    break;
+                case "Polygon":
+                    Point[] vertices = new Point[3];
+                    vertices[0] = new Point((int) (pos.getX() + rand.nextInt(20)), (int) (pos.getY() + rand.nextInt(50)));
+                    vertices[1] = new Point((int) (pos.getX() + rand.nextInt(30)), (int) (pos.getY() + rand.nextInt(70)));
+                    vertices[2] = new Point((int) (pos.getX() + rand.nextInt(40)), (int) (pos.getY() + rand.nextInt(60)));
+                    Polygon poly = new Polygon(vertices, 1, color);
+                    drawing.getItems().add(poly);
+                    break;
+                case "Image":
+                    break;
+                case "Text":
+                    PaintedText text = new PaintedText("Content", "Arial", pos, 50, 50, color);
+                    drawing.getItems().add(text);
+                    break;
+            }
+
+            DrawingTool drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
+            drawingTool.draw();
+        }
     }
 }
