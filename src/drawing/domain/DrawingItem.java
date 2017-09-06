@@ -6,7 +6,7 @@ import java.awt.*;
 
 public abstract class DrawingItem {
     private DrawingItem previousState;
-    Color color;
+    public Color color;
 
     DrawingItem() {
         previousState = null;

@@ -28,7 +28,7 @@ public class PaintedText extends DrawingItem {
         this.content = content;
     }
 
-    public String getFontName() {
+    private String getFontName() {
         return fontName;
     }
 

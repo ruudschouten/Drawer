@@ -45,7 +45,7 @@ public class Oval extends DrawingItem {
         this.height = height;
     }
 
-    public double getWeight() {
+    private double getWeight() {
         return weight;
     }
 
