@@ -4,8 +4,12 @@ import drawing.domain.*;
 import drawing.domain.Image;
 import drawing.domain.Polygon;
 import javafx.scene.canvas.GraphicsContext;
+import jdk.internal.util.xml.impl.Input;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class JavaFXPaintable implements IPaintable {
 
@@ -42,6 +46,12 @@ public class JavaFXPaintable implements IPaintable {
 
     @Override
     public void paint(Image image) {
-        //TODO: Do this
+        try {
+            InputStream input = new FileInputStream(image.getFile());
+            javafx.scene.image.Image img = new javafx.scene.image.Image(input);
+            gc.drawImage(img, image.getAnchor().getX(), image.getAnchor().getY());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

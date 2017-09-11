@@ -1,6 +1,7 @@
 package GUI;
 
 import drawing.domain.*;
+import drawing.domain.Image;
 import drawing.domain.Polygon;
 import drawing.javafx.DrawingTool;
 import javafx.beans.value.ChangeListener;
@@ -13,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -97,6 +99,9 @@ public class Controller {
                     drawing.getItems().add(poly);
                     break;
                 case "Image":
+                    File file = new File("D:\\Programming\\Java\\Drawer\\src\\drawing\\minion.jpg");
+                    Image img = new Image(file, new Point((int) pos.getX(), (int) pos.getY()), 100,100);
+                    drawing.getItems().add(img);
                     break;
                 case "Text":
                     PaintedText text = new PaintedText("Content", "Arial", pos, 50, 50, color);
