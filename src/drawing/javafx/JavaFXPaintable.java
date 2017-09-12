@@ -4,7 +4,6 @@ import drawing.domain.*;
 import drawing.domain.Image;
 import drawing.domain.Polygon;
 import javafx.scene.canvas.GraphicsContext;
-import jdk.internal.util.xml.impl.Input;
 
 import java.awt.*;
 import java.io.FileInputStream;

@@ -3,20 +3,25 @@ package GUI;
 import drawing.domain.*;
 import drawing.domain.Image;
 import drawing.domain.Polygon;
+import drawing.javafx.DatabaseMediator;
 import drawing.javafx.DrawingTool;
+import drawing.javafx.SerializationMediator;
 import javafx.beans.value.ChangeListener;
+import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.Random;
 
 public class Controller {
@@ -38,9 +43,11 @@ public class Controller {
     private Canvas canvas;
 
     private Drawing drawing;
+    private DrawingTool drawingTool;
     private String item = "Oval";
     private String mode = "Create";
     private Color color = Color.RED;
+    private SerializationMediator serial;
 
     @FXML
     public void initialize() {
@@ -65,6 +72,18 @@ public class Controller {
             }
         });
 
+        drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
+        DatabaseMediator mediator = new DatabaseMediator();
+        serial = new SerializationMediator();
+
+        Properties props = new Properties();
+        try {
+            props.load(new FileInputStream("C:\\Programming\\Java\\Drawer\\Drawer\\src\\drawing\\javafx\\db.properties"));
+            mediator.init(props);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         cpColor.valueProperty().addListener((observable, oldValue, newValue) -> color = cpColor.getValue());
 
         cbMode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> mode = newValue.toString());
@@ -87,7 +106,7 @@ public class Controller {
             Point pos = new Point((int) mouseEvent.getX(), (int) mouseEvent.getY());
             switch (this.item) {
                 case "Oval":
-                    Oval oval = new Oval(pos, 20+ rand.nextInt(50), 20 + rand.nextInt(50), 1, color);
+                    Oval oval = new Oval(pos, 20 + rand.nextInt(50), 20 + rand.nextInt(50), 1, color);
                     drawing.getItems().add(oval);
                     break;
                 case "Polygon":
@@ -99,8 +118,8 @@ public class Controller {
                     drawing.getItems().add(poly);
                     break;
                 case "Image":
-                    File file = new File("D:\\Programming\\Java\\Drawer\\src\\drawing\\minion.jpg");
-                    Image img = new Image(file, new Point((int) pos.getX(), (int) pos.getY()), 100,100);
+                    File file = new File("C:\\Programming\\Java\\Drawer\\Drawer\\src\\drawing\\minion.jpg");
+                    Image img = new Image(file, new Point((int) pos.getX(), (int) pos.getY()), 100, 100);
                     drawing.getItems().add(img);
                     break;
                 case "Text":
@@ -108,9 +127,10 @@ public class Controller {
                     drawing.getItems().add(text);
                     break;
             }
-
-            DrawingTool drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
             drawingTool.draw();
+            if (!drawing.getItems().isEmpty()) {
+                serial.save(drawing);
+            }
         }
     }
 }
