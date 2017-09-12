@@ -21,9 +21,9 @@ class Main {
         vertices[2] = new Point(0,90);
         vertices[3] = new Point(105, 10);
         Image img = new Image(null, new Point(0, 10), 20, 20);
-        Oval oval = new Oval(new Point(10, 20), 20, 30, 2, Color.ALICEBLUE);
-        PaintedText text = new PaintedText("Text", "Consolas", new Point(30, 10), 40, 10, Color.CORAL);
-        Polygon polygon = new Polygon(vertices, 5, Color.PURPLE);
+        Oval oval = new Oval(new Point(10, 20), 20, 30, 2, new ColorTransfer(Color.ALICEBLUE));
+        PaintedText text = new PaintedText("Text", "Consolas", new Point(30, 10), 40, 10, new ColorTransfer(Color.CORAL));
+        Polygon polygon = new Polygon(vertices, 5, new ColorTransfer(Color.PURPLE));
         ArrayList<DrawingItem> items = new ArrayList<>();
         items.add(img);
         items.add(polygon);

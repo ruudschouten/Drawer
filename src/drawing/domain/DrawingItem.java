@@ -6,13 +6,13 @@ import java.awt.*;
 
 public abstract class DrawingItem {
     private DrawingItem previousState;
-    public Color color;
+    public ColorTransfer color;
 
     DrawingItem() {
         previousState = null;
     }
 
-    DrawingItem(Color color) {
+    DrawingItem(ColorTransfer color) {
         this.color = color;
         previousState = null;
     }

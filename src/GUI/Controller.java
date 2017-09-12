@@ -7,11 +7,10 @@ import drawing.javafx.DatabaseMediator;
 import drawing.javafx.DrawingTool;
 import drawing.javafx.SerializationMediator;
 import javafx.beans.value.ChangeListener;
-import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
@@ -46,7 +45,7 @@ public class Controller {
     private DrawingTool drawingTool;
     private String item = "Oval";
     private String mode = "Create";
-    private Color color = Color.RED;
+    private ColorTransfer color = new ColorTransfer(1, 0, 0);
     private SerializationMediator serial;
 
     @FXML
@@ -73,18 +72,19 @@ public class Controller {
         });
 
         drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
-        DatabaseMediator mediator = new DatabaseMediator();
-        serial = new SerializationMediator();
 
-        Properties props = new Properties();
+        DatabaseMediator mediator = new DatabaseMediator();
+
         try {
+            Properties props = new Properties();
             props.load(new FileInputStream("C:\\Programming\\Java\\Drawer\\Drawer\\src\\drawing\\javafx\\db.properties"));
             mediator.init(props);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        serial = new SerializationMediator();
 
-        cpColor.valueProperty().addListener((observable, oldValue, newValue) -> color = cpColor.getValue());
+        cpColor.valueProperty().addListener((observable, oldValue, newValue) -> color.setColor(cpColor.getValue()));
 
         cbMode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> mode = newValue.toString());
     }
@@ -118,7 +118,7 @@ public class Controller {
                     drawing.getItems().add(poly);
                     break;
                 case "Image":
-                    File file = new File("C:\\Programming\\Java\\Drawer\\Drawer\\src\\drawing\\minion.jpg");
+                    File file = new File("minion.jpg");
                     Image img = new Image(file, new Point((int) pos.getX(), (int) pos.getY()), 100, 100);
                     drawing.getItems().add(img);
                     break;

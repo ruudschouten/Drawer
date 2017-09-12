@@ -3,12 +3,13 @@ package drawing.domain;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Polygon extends DrawingItem {
+public class Polygon extends DrawingItem implements Serializable {
     private Point[] vertices;
     private double weight;
 
-    public Polygon(Point[] vertices, double weight, Color color) {
+    public Polygon(Point[] vertices, double weight, ColorTransfer color) {
         super(color);
         this.vertices = vertices;
         this.weight = weight;

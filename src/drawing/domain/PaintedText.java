@@ -3,15 +3,16 @@ package drawing.domain;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class PaintedText extends DrawingItem {
+public class PaintedText extends DrawingItem implements Serializable {
     private String content;
     private String fontName;
     private Point anchor;
     private double width;
     private double height;
 
-    public PaintedText(String content, String fontName, Point anchor, double width, double height, Color color) {
+    public PaintedText(String content, String fontName, Point anchor, double width, double height, ColorTransfer color) {
         super(color);
         this.content = content;
         this.fontName = fontName;

@@ -20,13 +20,13 @@ public class JavaFXPaintable implements IPaintable {
 
     @Override
     public void paint(Oval oval) {
-        gc.setFill(oval.color);
+        gc.setFill(oval.color.getColor());
         gc.fillOval(oval.getAnchor().getX(), oval.getAnchor().getY(), oval.getWidth(), oval.getHeight());
     }
 
     @Override
     public void paint(Polygon polygon) {
-        gc.setFill(polygon.color);
+        gc.setFill(polygon.color.getColor());
         double[] vertical = new double[polygon.getVertices().length];
         double[] horizontal = new double[polygon.getVertices().length];
         for (int i = 0; i < polygon.getVertices().length; i++) {
@@ -39,7 +39,7 @@ public class JavaFXPaintable implements IPaintable {
 
     @Override
     public void paint(PaintedText text) {
-        gc.setFill(text.color);
+        gc.setFill(text.color.getColor());
         gc.fillText(text.getContent(), text.getAnchor().getX(), text.getAnchor().getY(), text.getWidth());
     }
 

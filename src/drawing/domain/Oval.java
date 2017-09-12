@@ -3,14 +3,15 @@ package drawing.domain;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Oval extends DrawingItem {
+public class Oval extends DrawingItem implements Serializable {
     private Point anchor;
     private double width;
     private double height;
     private double weight;
 
-    public Oval(Point anchor, double width, double height, double weight, Color color) {
+    public Oval(Point anchor, double width, double height, double weight, ColorTransfer color) {
         super(color);
         this.anchor = anchor;
         this.width = width;

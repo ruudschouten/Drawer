@@ -1,9 +1,10 @@
 package drawing.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Drawing implements Comparator<DrawingItem> {
+public class Drawing implements Comparator<DrawingItem>, Serializable {
     private String name;
     private ArrayList<DrawingItem> items;
 

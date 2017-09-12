@@ -2,8 +2,9 @@ package drawing.domain;
 
 import java.awt.*;
 import java.io.File;
+import java.io.Serializable;
 
-public class Image extends DrawingItem {
+public class Image extends DrawingItem implements Serializable {
     private File file;
     private Point anchor;
     private double width;
