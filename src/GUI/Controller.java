@@ -71,8 +71,6 @@ public class Controller {
             }
         });
 
-        drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
-
         DatabaseMediator mediator = new DatabaseMediator();
 
         try {
@@ -102,6 +100,9 @@ public class Controller {
 
     public void paintPaintable(MouseEvent mouseEvent) {
         Random rand = new Random();
+        drawing = new Drawing("unnamed", new ArrayList<>());
+        drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
+
         if (Objects.equals(mode, "Create")) {
             Point pos = new Point((int) mouseEvent.getX(), (int) mouseEvent.getY());
             switch (this.item) {
