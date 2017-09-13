@@ -10,6 +10,11 @@ public class ColorTransfer implements Serializable {
     private double b;
     private double opacity;
 
+    public ColorTransfer() {
+        this.r = 1;
+        this.opacity = 1;
+    }
+
     public ColorTransfer(double r, double g, double b, double opacity) {
         this.r = r;
         this.g = g;
@@ -33,5 +38,10 @@ public class ColorTransfer implements Serializable {
         g = c.getGreen();
         b = c.getBlue();
         opacity = c.getOpacity();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("r: %s g: %s b:%S o: %s", r, g, b, opacity);
     }
 }
