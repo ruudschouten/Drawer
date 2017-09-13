@@ -14,7 +14,7 @@ public class JavaFXPaintable implements IPaintable {
 
     private GraphicsContext gc;
 
-    JavaFXPaintable(GraphicsContext gc) {
+    public JavaFXPaintable(GraphicsContext gc) {
         this.gc = gc;
     }
 

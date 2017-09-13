@@ -1,11 +1,8 @@
 package drawing.domain;
 
-import javafx.scene.paint.Color;
-
 import java.awt.*;
-import java.io.Serializable;
 
-public class Oval extends DrawingItem implements Serializable {
+public class Oval extends DrawingItem {
     private Point anchor;
     private double width;
     private double height;
