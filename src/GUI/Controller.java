@@ -45,7 +45,7 @@ public class Controller {
     private DrawingTool drawingTool;
     private String item = "Oval";
     private String mode = "Create";
-    private ColorTransfer color = new ColorTransfer(1, 0, 0);
+    private ColorTransfer color = new ColorTransfer(1, 0, 0, 1.0);
     private SerializationMediator serial;
 
     @FXML
