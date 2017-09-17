@@ -10,14 +10,14 @@ public class SerializationMediator implements IPersistanceMediator {
 
     @Override
     public Drawing load(String drawingName) {
-        Drawing d;
         try {
+            Drawing d;
             FileInputStream fileIn = new FileInputStream(drawingName);
             ObjectInputStream in = new ObjectInputStream(fileIn);
-             d = (Drawing) in.readObject();
-             in.close();
-             fileIn.close();
-             return d;
+            d = (Drawing) in.readObject();
+            in.close();
+            fileIn.close();
+            return d;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

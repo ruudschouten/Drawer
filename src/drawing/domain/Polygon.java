@@ -1,11 +1,8 @@
 package drawing.domain;
 
-import javafx.scene.paint.Color;
-
 import java.awt.*;
-import java.io.Serializable;
 
-public class Polygon extends DrawingItem implements Serializable {
+public class Polygon extends DrawingItem {
     private Point[] vertices;
     private double weight;
 

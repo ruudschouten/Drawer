@@ -1,10 +1,9 @@
 package drawing.domain;
 
-import javafx.scene.paint.Color;
-
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class DrawingItem {
+public abstract class DrawingItem implements Serializable {
     private DrawingItem previousState;
     public ColorTransfer color;
 

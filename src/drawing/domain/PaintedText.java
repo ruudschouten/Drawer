@@ -1,11 +1,8 @@
 package drawing.domain;
 
-import javafx.scene.paint.Color;
-
 import java.awt.*;
-import java.io.Serializable;
 
-public class PaintedText extends DrawingItem implements Serializable {
+public class PaintedText extends DrawingItem {
     private String content;
     private String fontName;
     private Point anchor;
