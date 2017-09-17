@@ -46,10 +46,19 @@ public class Controller {
     @FXML
     public void initialize() {
         paintable = new JavaFXPaintable(canvas.getGraphicsContext2D());
-        database = new DatabaseMediator();
+//        Serial
         serial = new SerializationMediator();
-        drawing = serial.load("drawing.draw");
-
+        drawing = serial.load("untitled.draw");
+//        Database
+        database = new DatabaseMediator();
+        try {
+            Properties props = new Properties();
+            props.load(new FileInputStream("db.properties"));
+            database.init(props);
+            //drawing = database.load("untitled");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if(drawing == null) {
             drawing = new Drawing("untitled", new ArrayList<>());
         } else {
@@ -75,15 +84,6 @@ public class Controller {
                     break;
             }
         });
-
-        try {
-            Properties props = new Properties();
-            props.load(new FileInputStream("db.properties"));
-            database.init(props);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        serial = new SerializationMediator();
 
         cpColor.valueProperty().addListener((observable, oldValue, newValue) -> javaFxColor = cpColor.getValue());
 
@@ -135,7 +135,7 @@ public class Controller {
             }
             if (!drawing.getItems().isEmpty()) {
                 serial.save(drawing);
-                //database.save(drawing);
+//                database.save(drawing);
             }
         }
     }

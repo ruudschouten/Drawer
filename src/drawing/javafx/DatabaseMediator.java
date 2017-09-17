@@ -15,7 +15,7 @@ public class DatabaseMediator implements IPersistanceMediator {
     @Override
     public Drawing load(String drawingName) {
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT FROM drawer WHERE Name like ? LIMIT 1");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM drawing WHERE Name like ? LIMIT 1");
             statement.setString(1, drawingName);
             ResultSet rs = statement.executeQuery();
             if(rs.next()) {
