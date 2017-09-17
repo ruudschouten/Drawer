@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.io.File;
@@ -25,29 +26,20 @@ import java.util.Properties;
 import java.util.Random;
 
 public class Controller {
-    @FXML
-    private Label lbImagePath;
-    @FXML
-    private ComboBox cbDrawing;
-    @FXML
-    private Label lbColor;
-    @FXML
-    private ColorPicker cpColor;
-    @FXML
-    private ChoiceBox cbMode;
-    @FXML
-    private Label lbBrowse;
-    @FXML
-    private Button btnBrowse;
-    @FXML
-    private Canvas canvas;
+    @FXML private Label lbImagePath;
+    @FXML private ComboBox cbDrawing;
+    @FXML private Label lbColor;
+    @FXML private ColorPicker cpColor;
+    @FXML private ChoiceBox cbMode;
+    @FXML private Label lbBrowse;
+    @FXML private Button btnBrowse;
+    @FXML private Canvas canvas;
 
     private Drawing drawing;
-    private DrawingTool drawingTool;
     private String item = "Oval";
     private String mode = "Create";
     private JavaFXPaintable paintable;
-    private ColorTransfer color = new ColorTransfer(1, 0, 0, 1.0);
+    private Color javaFxColor = Color.RED;
     private SerializationMediator serial;
     private DatabaseMediator database;
 
@@ -56,10 +48,10 @@ public class Controller {
         paintable = new JavaFXPaintable(canvas.getGraphicsContext2D());
         database = new DatabaseMediator();
         serial = new SerializationMediator();
-        drawing = serial.load("D0.draw");
+        drawing = serial.load("drawing.draw");
 
         if(drawing == null) {
-            drawing = new Drawing("D1", new ArrayList<>());
+            drawing = new Drawing("untitled", new ArrayList<>());
         } else {
             drawing.paintUsing(paintable);
         }
@@ -93,7 +85,7 @@ public class Controller {
         }
         serial = new SerializationMediator();
 
-        cpColor.valueProperty().addListener((observable, oldValue, newValue) -> color.setColor(cpColor.getValue()));
+        cpColor.valueProperty().addListener((observable, oldValue, newValue) -> javaFxColor = cpColor.getValue());
 
         cbMode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> mode = newValue.toString());
     }
@@ -111,13 +103,12 @@ public class Controller {
 
     public void paintPaintable(MouseEvent mouseEvent) {
         Random rand = new Random();
-        drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
 
         if (Objects.equals(mode, "Create")) {
             Point pos = new Point((int) mouseEvent.getX(), (int) mouseEvent.getY());
             switch (this.item) {
                 case "Oval":
-                    Oval oval = new Oval(pos, 20 + rand.nextInt(50), 20 + rand.nextInt(50), 1, color);
+                    Oval oval = new Oval(pos, 20 + rand.nextInt(50), 20 + rand.nextInt(50), 1, new ColorTransfer(javaFxColor));
                     drawing.getItems().add(oval);
                     oval.paintUsing(paintable);
                     break;
@@ -126,7 +117,7 @@ public class Controller {
                     vertices[0] = new Point((int) (pos.getX() + rand.nextInt(20)), (int) (pos.getY() + rand.nextInt(50)));
                     vertices[1] = new Point((int) (pos.getX() + rand.nextInt(30)), (int) (pos.getY() + rand.nextInt(70)));
                     vertices[2] = new Point((int) (pos.getX() + rand.nextInt(40)), (int) (pos.getY() + rand.nextInt(60)));
-                    Polygon poly = new Polygon(vertices, 1, color);
+                    Polygon poly = new Polygon(vertices, 1,  new ColorTransfer(javaFxColor));
                     drawing.getItems().add(poly);
                     poly.paintUsing(paintable);
                     break;
@@ -137,7 +128,7 @@ public class Controller {
                     img.paintUsing(paintable);
                     break;
                 case "Text":
-                    PaintedText text = new PaintedText("Content", "Arial", pos, 50, 50, color);
+                    PaintedText text = new PaintedText("Content", "Arial", pos, 50, 50,  new ColorTransfer(javaFxColor));
                     drawing.getItems().add(text);
                     text.paintUsing(paintable);
                     break;
