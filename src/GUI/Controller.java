@@ -86,7 +86,7 @@ public class Controller {
 
         try {
             Properties props = new Properties();
-            props.load(new FileInputStream("C:\\Programming\\Java\\Drawer\\Drawer\\src\\drawing\\javafx\\db.properties"));
+            props.load(new FileInputStream("db.properties"));
             database.init(props);
         } catch (IOException e) {
             e.printStackTrace();
