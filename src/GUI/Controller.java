@@ -5,6 +5,7 @@ import drawing.domain.Image;
 import drawing.domain.Polygon;
 import drawing.javafx.DatabaseMediator;
 import drawing.javafx.DrawingTool;
+import drawing.javafx.JavaFXPaintable;
 import drawing.javafx.SerializationMediator;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -45,12 +46,24 @@ public class Controller {
     private DrawingTool drawingTool;
     private String item = "Oval";
     private String mode = "Create";
+    private JavaFXPaintable paintable;
     private ColorTransfer color = new ColorTransfer(1, 0, 0, 1.0);
     private SerializationMediator serial;
+    private DatabaseMediator database;
 
     @FXML
     public void initialize() {
-        drawing = new Drawing("unnammed", new ArrayList<>());
+        paintable = new JavaFXPaintable(canvas.getGraphicsContext2D());
+        database = new DatabaseMediator();
+        serial = new SerializationMediator();
+        drawing = serial.load("D0.draw");
+
+        if(drawing == null) {
+            drawing = new Drawing("D1", new ArrayList<>());
+        } else {
+            drawing.paintUsing(paintable);
+        }
+
         cbDrawing.valueProperty().addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
             item = cbDrawing.getValue().toString();
 
@@ -71,12 +84,10 @@ public class Controller {
             }
         });
 
-        DatabaseMediator mediator = new DatabaseMediator();
-
         try {
             Properties props = new Properties();
             props.load(new FileInputStream("C:\\Programming\\Java\\Drawer\\Drawer\\src\\drawing\\javafx\\db.properties"));
-            mediator.init(props);
+            database.init(props);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,7 +111,6 @@ public class Controller {
 
     public void paintPaintable(MouseEvent mouseEvent) {
         Random rand = new Random();
-        drawing = new Drawing("unnamed", new ArrayList<>());
         drawingTool = new DrawingTool(canvas.getGraphicsContext2D(), drawing);
 
         if (Objects.equals(mode, "Create")) {
@@ -109,6 +119,7 @@ public class Controller {
                 case "Oval":
                     Oval oval = new Oval(pos, 20 + rand.nextInt(50), 20 + rand.nextInt(50), 1, color);
                     drawing.getItems().add(oval);
+                    oval.paintUsing(paintable);
                     break;
                 case "Polygon":
                     Point[] vertices = new Point[3];
@@ -117,20 +128,23 @@ public class Controller {
                     vertices[2] = new Point((int) (pos.getX() + rand.nextInt(40)), (int) (pos.getY() + rand.nextInt(60)));
                     Polygon poly = new Polygon(vertices, 1, color);
                     drawing.getItems().add(poly);
+                    poly.paintUsing(paintable);
                     break;
                 case "Image":
                     File file = new File("minion.jpg");
                     Image img = new Image(file, new Point((int) pos.getX(), (int) pos.getY()), 100, 100);
                     drawing.getItems().add(img);
+                    img.paintUsing(paintable);
                     break;
                 case "Text":
                     PaintedText text = new PaintedText("Content", "Arial", pos, 50, 50, color);
                     drawing.getItems().add(text);
+                    text.paintUsing(paintable);
                     break;
             }
-            drawingTool.draw();
             if (!drawing.getItems().isEmpty()) {
                 serial.save(drawing);
+                //database.save(drawing);
             }
         }
     }

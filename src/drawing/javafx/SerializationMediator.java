@@ -2,10 +2,7 @@ package drawing.javafx;
 
 import drawing.domain.Drawing;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class SerializationMediator implements IPersistanceMediator {
@@ -13,19 +10,31 @@ public class SerializationMediator implements IPersistanceMediator {
 
     @Override
     public Drawing load(String drawingName) {
+        Drawing d;
+        try {
+            FileInputStream fileIn = new FileInputStream(drawingName);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+             d = (Drawing) in.readObject();
+             in.close();
+             fileIn.close();
+             return d;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return null;
-        //TODO: Finish this
     }
 
     @Override
     public boolean save(Drawing drawing) {
         try {
-            FileOutputStream fileOut = new FileOutputStream("drawing.draw");
+            FileOutputStream fileOut = new FileOutputStream(drawing.getName() +".draw");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(drawing);
             out.close();
             fileOut.close();
-
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
