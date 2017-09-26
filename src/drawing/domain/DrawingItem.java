@@ -1,11 +1,16 @@
 package drawing.domain;
 
+import javafx.scene.shape.Rectangle;
+
 import java.awt.*;
 import java.io.Serializable;
 
 public abstract class DrawingItem implements Serializable {
     private DrawingItem previousState;
     public ColorTransfer color;
+    public Rectangle boundingBox;
+    public boolean overlaps(DrawingItem item) { return this.insideBoundingBox(item.getAnchor()); }
+    public abstract boolean insideBoundingBox(Point point);
 
     DrawingItem() {
         previousState = null;

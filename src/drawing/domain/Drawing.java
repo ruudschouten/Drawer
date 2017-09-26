@@ -1,20 +1,38 @@
 package drawing.domain;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.shape.Rectangle;
+
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
-public class Drawing implements Comparator<DrawingItem>, Serializable {
+public class Drawing extends DrawingItem implements Comparator<DrawingItem>, Serializable {
+    private ObservableList<DrawingItem> observableList;
     private String name;
     private ArrayList<DrawingItem> items;
 
     public Drawing(String name, ArrayList<DrawingItem> items) {
         this.name = name;
         this.items = items;
+        observableList = FXCollections.observableList(items);
+        boundingBox = new Rectangle(getAnchor().x, getAnchor().y, getWidth(), getHeight());
     }
 
-    public ArrayList<DrawingItem> getItems() {
-        return items;
+    public void addItem(DrawingItem item) {
+        observableList.add(item);
+    }
+
+    public List<DrawingItem> getItems() {
+        return Collections.unmodifiableList(items);
+    }
+
+    public ObservableList<DrawingItem> itemsToObserve() {
+        return FXCollections.unmodifiableObservableList(observableList);
     }
 
     public String getName() {
@@ -25,17 +43,56 @@ public class Drawing implements Comparator<DrawingItem>, Serializable {
         this.name = name;
     }
 
-    public void paintUsing(IPaintable paintable) throws ClassCastException {
+    @Override
+    public void paintUsing(IPaintable paintable) {
         for (DrawingItem d : items) {
-            if (d.getClass() == Oval.class) paintable.paint((Oval) d);
-            else if (d.getClass() == Polygon.class) paintable.paint((Polygon) d);
-            else if (d.getClass() == PaintedText.class) paintable.paint((PaintedText) d);
-            else if (d.getClass() == Image.class) paintable.paint((Image) d);
+            d.paintUsing(paintable);
         }
     }
 
     @Override
     public int compare(DrawingItem o1, DrawingItem o2) {
         return Integer.compare((int) ((int) o1.getAnchor().getX() + o1.getAnchor().getY()), (int) ((int) o2.getAnchor().getX() + o2.getAnchor().getY()));
+    }
+
+    @Override
+    public boolean insideBoundingBox(Point point) {
+        return this.boundingBox.contains(point.getX(), point.getY());
+    }
+
+    @Override
+    public Point getAnchor() {
+        return new Point((int) getWidth(), (int) getHeight());
+    }
+
+    @Override
+    public double getWidth() {
+        double x = 0;
+        for (DrawingItem d : observableList) {
+            if (d.getAnchor().getX() + d.getWidth() > x) {
+                x = d.getAnchor().getX() + d.getWidth();
+            }
+        }
+        return x;
+    }
+
+    @Override
+    public double getHeight() {
+        double y = 0;
+        for (DrawingItem d : observableList) {
+            if (d.getAnchor().getY() + d.getHeight() > y) {
+                y = d.getAnchor().getY() + d.getHeight();
+            }
+        }
+        return y;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder(String.format("Drawing: %s, h: %s, w: %s\n", name, getHeight(), getWidth()));
+        for (DrawingItem d : observableList) {
+            s.append(String.format("\t%s\n", d));
+        }
+        return s.toString();
     }
 }

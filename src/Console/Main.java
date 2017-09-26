@@ -22,7 +22,7 @@ class Main {
         vertices[3] = new Point(105, 10);
         Image img = new Image(null, new Point(0, 10), 20, 20);
         Oval oval = new Oval(new Point(10, 20), 20, 30, 2, new ColorTransfer(Color.ALICEBLUE));
-        PaintedText text = new PaintedText("Text", "Consolas", new Point(30, 10), 40, 10, new ColorTransfer(Color.CORAL));
+        PaintedText text = new PaintedText("Text", "Consolas", new Point(30, 10), new ColorTransfer(Color.CORAL));
         Polygon polygon = new Polygon(vertices, 5, new ColorTransfer(Color.PURPLE));
         ArrayList<DrawingItem> items = new ArrayList<>();
         items.add(img);

@@ -1,5 +1,9 @@
 package drawing.domain;
 
+import com.sun.javafx.tk.FontLoader;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+
 import java.awt.*;
 
 public class PaintedText extends DrawingItem {
@@ -9,13 +13,14 @@ public class PaintedText extends DrawingItem {
     private double width;
     private double height;
 
-    public PaintedText(String content, String fontName, Point anchor, double width, double height, ColorTransfer color) {
+    public PaintedText(String content, String fontName, Point anchor, ColorTransfer color) {
         super(color);
         this.content = content;
         this.fontName = fontName;
         this.anchor = anchor;
-        this.width = width;
-        this.height = height;
+        this.width = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().computeStringWidth(content, Font.font(fontName));
+        this.height = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().getFontMetrics(Font.font(fontName)).getLineHeight();
+        boundingBox = new Rectangle(getAnchor().x, getAnchor().y, getWidth(), getHeight());
     }
 
     public String getContent() {
@@ -32,6 +37,11 @@ public class PaintedText extends DrawingItem {
 
     public void setFontName(String fontName) {
         this.fontName = fontName;
+    }
+
+    @Override
+    public boolean insideBoundingBox(Point point) {
+        return this.boundingBox.contains(point.getX(), point.getY());
     }
 
     @Override

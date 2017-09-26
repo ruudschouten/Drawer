@@ -1,5 +1,7 @@
 package drawing.domain;
 
+import javafx.scene.shape.Rectangle;
+
 import java.awt.*;
 
 public class Oval extends DrawingItem {
@@ -14,6 +16,12 @@ public class Oval extends DrawingItem {
         this.width = width;
         this.height = height;
         this.weight = weight;
+        boundingBox = new Rectangle(getAnchor().x, getAnchor().y, getWidth(), getHeight());
+    }
+
+    @Override
+    public boolean insideBoundingBox(Point point) {
+        return this.boundingBox.contains(point.getX(), point.getY());
     }
 
     @Override

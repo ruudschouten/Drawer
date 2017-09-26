@@ -1,5 +1,7 @@
 package drawing.domain;
 
+import javafx.scene.shape.Rectangle;
+
 import java.awt.*;
 import java.io.File;
 
@@ -14,6 +16,7 @@ public class Image extends DrawingItem {
         this.anchor = anchor;
         this.width = width;
         this.height = height;
+        boundingBox = new Rectangle(getAnchor().x, getAnchor().y, getWidth(), getHeight());
     }
 
     public File getFile() {
@@ -22,6 +25,11 @@ public class Image extends DrawingItem {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    @Override
+    public boolean insideBoundingBox(Point point) {
+        return this.boundingBox.contains(point.getX(), point.getY());
     }
 
     @Override
